@@ -1,0 +1,69 @@
+/* =========================================================
+   Animations
+   ========================================================= */
+
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dot-pulse {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.85); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes chrome-shine-in {
+  from { opacity: 0; filter: brightness(0.6); transform: scale(0.94); }
+  to { opacity: 1; filter: brightness(1); transform: scale(1); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in { animation: fade-in var(--dur-med) var(--ease-out); }
+
+/* Toasts */
+.toast-stack {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(155deg, var(--bg-elevated), var(--bg-surface));
+  border: 1px solid var(--border-chrome);
+  box-shadow: var(--shadow-elevated);
+  font-size: 12.5px;
+  color: var(--text-primary);
+  animation: toast-in var(--dur-med) var(--ease-out);
+}
+.toast .icon { width: 14px; height: 14px; }
+.toast.success .icon { color: var(--accent); }
+.toast.error .icon { color: var(--status-error); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

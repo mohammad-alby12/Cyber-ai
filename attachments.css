@@ -1,0 +1,206 @@
+/* =========================================================
+   Attachments — pending uploads (before send) + in-message display
+   ========================================================= */
+
+.attachment-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+  max-width: 760px;
+}
+.attachment-tray:empty { display: none; margin: 0; }
+
+.attachment-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  animation: msg-in var(--dur-med) var(--ease-out);
+  max-width: 220px;
+}
+
+.attachment-chip.image-chip {
+  padding: 0;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+}
+.attachment-chip.image-chip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.attachment-chip.file-chip { padding: 8px 10px; }
+
+.attachment-file-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-soft);
+  color: var(--chrome-light);
+}
+.attachment-file-icon svg { width: 15px; height: 15px; }
+
+.attachment-file-info { min-width: 0; }
+.attachment-file-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+.attachment-file-size {
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.attachment-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-chrome);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+  z-index: 2;
+}
+.attachment-remove:hover { background: var(--status-error); color: #fff; transform: scale(1.08); }
+.attachment-remove svg { width: 10px; height: 10px; }
+
+.attachment-uploading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 5, 0.55);
+  border-radius: inherit;
+}
+.attachment-uploading .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Drag-and-drop overlay on the whole input region */
+.dropzone-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(5, 5, 5, 0.82);
+  border: 1.5px dashed var(--border-chrome-strong);
+  border-radius: var(--radius-lg);
+  color: var(--chrome-bright);
+  backdrop-filter: blur(4px);
+}
+.dropzone-overlay.active { display: flex; }
+.dropzone-overlay svg { width: 26px; height: 26px; }
+.dropzone-overlay span { font-size: 13px; font-weight: 500; }
+
+/* =========================================================
+   Attachments rendered inside a sent message bubble
+   ========================================================= */
+
+.msg-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.msg-row.user .msg-attachments { justify-content: flex-end; }
+
+.msg-attachment-image {
+  width: 120px;
+  height: 90px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  cursor: zoom-in;
+}
+.msg-attachment-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-med) var(--ease-out);
+}
+.msg-attachment-image:hover img { transform: scale(1.04); }
+
+.msg-attachment-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-soft);
+}
+
+/* Lightbox for viewing a full image */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-chrome);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chrome-bright);
+}
+.lightbox-close svg { width: 17px; height: 17px; }
+
+@media (max-width: 640px) {
+  .attachment-chip.image-chip { width: 56px; height: 56px; }
+  .msg-attachment-image { width: 96px; height: 74px; }
+}

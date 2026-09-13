@@ -1,0 +1,24 @@
+/* =========================================================
+   Responsive — cross-cutting rules not covered in component files
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 260px; }
+}
+
+@media (max-width: 860px) {
+  .topbar { padding: 0 14px; }
+  .model-pill-meta { display: none; }
+}
+
+@media (max-width: 480px) {
+  .quick-actions { gap: 8px; }
+  .quick-action-btn { padding: 9px 13px; font-size: 12.5px; }
+  .msg-avatar { width: 26px; height: 26px; }
+  .provider-actions { flex-direction: column; }
+}
+
+@media (hover: none) {
+  .msg-actions { opacity: 1; }
+  .chat-item-delete { opacity: 1; }
+}
